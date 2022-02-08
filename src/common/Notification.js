@@ -1,6 +1,8 @@
 import { IconButton, Snackbar } from '@mui/material';
 import React from 'react';
 import CloseIcon from '@mui/icons-material/Close';
+import { Alert } from '@mui/material';
+
 function Notification(props) {
   return (
       <>

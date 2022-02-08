@@ -10,6 +10,7 @@ export function RegularButton({color,variant,size,children,loading,...props}){
             variant={variant||"contained"}
             size={size||'small'}
             disabled={loading}
+            {...props}
         >
             {
                 loading?<><CircularProgress size={20} /><span>loading...</span></>:children
@@ -25,6 +26,7 @@ export function DeleteButton({color,variant,size,children,loading,...props}){
             variant={variant||"contained"}
             size={size||'small'}
             disabled={loading}
+            {...props}
         >
             {
                 loading?<><CircularProgress size={20} /><span>Processing...</span></>:children

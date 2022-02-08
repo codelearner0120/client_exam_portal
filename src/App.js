@@ -5,6 +5,8 @@ import Home from './component/Home';
 import SignIn from './component/SignIn';
 import LoginForm from './Forms/LoginForm';
 import RegistrationForm from './Forms/RegistrationForm';
+import Appbar from './common/Appbar';
+import NewUserForm from './component/NewUserForm';
 
 function App() {
   return (
@@ -16,13 +18,16 @@ function App() {
 function RoutesWrapper() {
   console.log("1")
   return (
-
+    <>
+    <Appbar />
     <Routes>
-      <Route path="/" element={<Base />}></Route>
-      <Route path="/home" element={<Home />}></Route>
-      <Route path="/login" element={<LoginForm />}></Route>
-      <Route path="/register" element={<RegistrationForm />}></Route>
+      {/* <Route path="/" element={<Appbar />}></Route> */}
+      <Route exact path="/home" element={<Home />}></Route>
+      <Route exact path="/login" element={<LoginForm />}></Route>
+      <Route exact path="/register" element={<RegistrationForm />}></Route>
+      <Route exact path="/newuser" element={<NewUserForm/>}></Route>
     </Routes>
+    </>
   );
 }
 const Base = () => {

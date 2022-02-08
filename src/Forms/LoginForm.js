@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { Grid,Box,Paper,Checkbox,FormControlLabel,TextField,Button,CssBaseline,Avatar,Link } from '@mui/material';
+import { Grid, Box, Paper, Checkbox, FormControlLabel, TextField, Button, CssBaseline, Avatar, Link } from '@mui/material';
 // import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { LockOutlined } from '@material-ui/icons';
+import { LockOutlined, LockRounded } from '@material-ui/icons';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSignInStyles } from '../common/style';
 import { RegularButton } from '../common/Buttons';
-
-const theme = createTheme();
+import { Container } from '@mui/material';
 
 export default function LoginForm() {
-  const classes=useSignInStyles()
+  const classes = useSignInStyles()
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(data.get('email'));
     // eslint-disable-next-line no-console
     console.log({
       email: data.get('email'),
@@ -22,58 +22,65 @@ export default function LoginForm() {
   };
 
   return (
-
-      <Grid container component="main" className={classes.root}>
-        <CssBaseline />
-        {/* <Grid item xs={false} sm={4} md={7} className={classes.image} /> */}
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlined color='primary' />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Exam Portal
-            </Typography>
-            {/* error alert */}
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-
-              <RegularButton className={classes.submit}>Sign In</RegularButton>
-              {/* <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid> 
-              </Grid> */}
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlined color="inherit" />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <form className={classes.form} onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            {/* <Grid item xs>
+              <Link href="/login" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid> */}
+            <Grid item sx={{display:'flex',justifyItems:'center'}}>
+              <Link href="/register" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+    </Container>
   );
 }
