@@ -7,8 +7,10 @@ import LoginForm from './Forms/LoginForm';
 import RegistrationForm from './Forms/RegistrationForm';
 import Appbar from './common/Appbar';
 import NewUserForm from './component/NewUserForm';
-
+import { useAgent } from './Forms/useAgent';
 function App() {
+  const {isLoggedIn}=useAgent();
+  console.log("user is login ",isLoggedIn())
   return (
     <div className="App">
       <RoutesWrapper />
@@ -16,7 +18,6 @@ function App() {
   );
 }
 function RoutesWrapper() {
-  console.log("1")
   return (
     <>
     <Appbar />

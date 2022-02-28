@@ -1,28 +1,43 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Grid, Box, Paper, Checkbox, FormControlLabel, TextField, Button, CssBaseline, Avatar, Link } from '@mui/material';
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { LockOutlined, LockRounded } from '@material-ui/icons';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSignInStyles } from '../common/style';
 import { RegularButton } from '../common/Buttons';
 import { Container } from '@mui/material';
+import axios from 'axios';
+import { BASE_URL,GENRATE_TOKEN } from '../common/path';
+import { useAgent } from './useAgent';
+import Notification from '../common/Notification';
 
 export default function LoginForm() {
   const classes = useSignInStyles()
+  const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 6000 })
+  const {saveInStorage}=useAgent();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log(data.get('email'));
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    let userAuth = {
+      userName: data.get('email'),
+      password: data.get('password')
+    }
+    console.log(userAuth)
+    axios.post(`${BASE_URL}/${GENRATE_TOKEN}`, userAuth).then(response => {
+    saveInStorage(response.data.token)
+    setNotification({open:true,msg:'login successfully',type:'success',hideDuration:3000})
+     
+    }).catch(error=>{
+    setNotification({open:true,msg:'Login failed!',type:'error',hideDuration:3000})
+    })
   };
 
   return (
     <Container component="main" maxWidth="xs">
+      <Notification notification={notification} setNotification={setNotification}/>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -73,9 +88,9 @@ export default function LoginForm() {
                 Forgot password?
               </Link>
             </Grid> */}
-            <Grid item sx={{display:'flex',justifyItems:'center'}}>
+            <Grid item sx={{ display: 'flex', justifyItems: 'center' }}>
               <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+                <div style={{ textAlign: 'center' }}>Don't have an account? Sign Up</div>
               </Link>
             </Grid>
           </Grid>

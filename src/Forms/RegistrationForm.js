@@ -9,24 +9,27 @@ import { AppRegistrationOutlined } from '@mui/icons-material';
 import Notification from '../common/Notification'
 import {RegularButton,DeleteButton} from '../common/Buttons'
 import axios from 'axios';
+import { ADD_USER,BASE_URL } from '../common/path';
+import { RegistrationError } from './FormError';
 
 function RegistrationForm() {
   const classes=useSignInStyles()
-  const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 6000 })
+  const [error,setError]=useState(false);
+  console.log(error," this was error")
+  const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 3000 })
  
   const FormField = (props) => {
     return (
       <TextField
         margin="normal"
         type={props.type||"text"}
-        required={false}
+        required={props.required||false}
         fullWidth
         id={props.id}
         label={props.label}
         name={props.name}
         autoComplete={props.name}
         autoFocus
-        helperText="please fill"
         {...props}
       />
     )
@@ -43,8 +46,14 @@ function RegistrationForm() {
       lastName:formData.get('lastName'),
       phone:formData.get('phone')
     }
-    axios.post(`http://localhost:8090/user/adduser`,user).then(res=>{
-    console.log(res.data)
+    RegistrationError(user,setError,setNotification)
+    if(error){
+      setError(false)
+      
+      return;
+    }
+    axios.post(`${BASE_URL}/${ADD_USER}`,user).then(res=>{
+    console.log(res)
     if(res.data.status){
       setNotification({open:true,msg:res.data.msg,type:'success',hideDuration:3000})
     }
@@ -55,9 +64,10 @@ function RegistrationForm() {
     (error)=>{
       console.log(error)
       setNotification({open:true,msg:'something went wrong!',type:'error',hideDuration:3000})
+      return;
     }
     )
-    console.log(user)
+    
   }
   return (
     <>
@@ -73,13 +83,13 @@ function RegistrationForm() {
     </Typography>
     <Notification notification={notification} setNotification={setNotification}/>
     <form className={classes.form} onSubmit={handleRegister} noValidate>
-      <FormField id="userName" label="User Name" name="userName"   />
-      <FormField id="password" label="Password" name="password" type="password" />
+      <FormField id="userName" label="User Name" name="userName" required={true}  />
+      <FormField id="password" label="Password" name="password" type="password" required={true} />
       <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-      <FormField id="firstName" label="First Name" name="firstName" />
+      <FormField id="firstName" label="First Name" name="firstName" required={true} />
       <FormField id="lastName" label="Last Name" name="lastName" />
       </div>
-      <FormField id="email" label="Email" name="email" type="email"   />
+      <FormField id="email" label="Email" name="email" type="email" required={true}  />
       <FormField id="phone" label="Phone No" name="phone"  />
       <div style={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>
     <RegularButton type="submit">Register</RegularButton>
