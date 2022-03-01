@@ -100,8 +100,7 @@ const styles = theme => ({
 
 class MiniDrawer extends React.Component {
   state = {
-    open: false,
-    anchorEl: null
+    open: false
   };
 
   handleDrawerOpen = () => {
@@ -112,17 +111,9 @@ class MiniDrawer extends React.Component {
     this.setState({ open: false });
   };
 
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
 
   render() {
     const { classes, theme } = this.props;
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
     return (
       <div className={classes.root}>
         <CssBaseline />
