@@ -77,7 +77,7 @@ function NewAppBar(props) {
                         className={classes.grow}
                         noWrap
                     >
-                        Mini variant menu++
+                        Quiz Portal for geeks
                     </Typography>
                     <Button color="inherit" onClick={handleLogin}>Login</Button>
                     <Button color='inherit' onClick={handleRegister}>Register</Button>
