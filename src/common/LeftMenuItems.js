@@ -1,14 +1,38 @@
 import * as path from './path'
-import { Home,Quiz,UpcomingIcon } from '@mui/icons-material'
-export const leftMenuItems=['Inbox','player'
-    // {
-    //     name:'Home',
-    //     path:path.SLASH+path.HOME,
-    //     Icon:Home
-    // },
-    // {
-    //     name:'Add quiz',
-    //     path:path.SLASH+path.QUIZ,
-    //     Icon:Quiz
-    // }
+import { Home,Quiz,UpcomingIcon,ExitToApp } from '@mui/icons-material'
+import { ListItemIcon,List,ListItem,ListItemText} from '@mui/material';
+import { AddBox } from '@material-ui/icons';
+
+const leftMenu=[
+    {
+        name:'Home',
+        icon:<Home/>
+    },
+    {
+        name:'Quiz',
+        icon:<Quiz/>
+    },
+    {
+        name:'Add quiz',
+        icon:<AddBox/>
+    },
+    {
+        name:'Logout',
+        icon:<ExitToApp />
+    }
 ]
+
+export default function LeftMenuItems(){
+    return(
+        <List>
+            {leftMenu.map((text, index) => (
+              <ListItem button key={text.name}>
+                <ListItemIcon>
+                  {text.icon}
+                </ListItemIcon>
+                <ListItemText primary={text.name} />
+              </ListItem>
+            ))}
+        </List>
+    )
+}

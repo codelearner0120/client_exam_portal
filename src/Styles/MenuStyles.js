@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 import { withStyles } from "@mui/styles";
-const drawerWidth = 220;
+const drawerWidth = 300;
 
 const useStyle = withStyles((theme) => ({
   root: {
@@ -150,7 +150,7 @@ export const style=theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(1)
   },
   grow: {
     flexGrow: 1
