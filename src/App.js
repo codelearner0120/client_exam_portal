@@ -10,15 +10,15 @@ import NewUserForm from './component/NewUserForm';
 import { useAgent } from './Forms/useAgent';
 import { ThemeProvider } from '@mui/styles';
 import theme from './Styles/Theme';
-
+import { CssBaseline } from '@mui/material';
+import Main from './Main';
 function App() {
   const {isLoggedIn}=useAgent();
   console.log("user is login ",isLoggedIn())
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
-      <RoutesWrapper />
-      </ThemeProvider>
+   <CssBaseline />
+   <Main />
     </div>
   );
 }
