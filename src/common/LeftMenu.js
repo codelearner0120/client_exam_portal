@@ -2,38 +2,60 @@ import React from 'react'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { makeStyles,Drawer } from '@mui/material';
-
-const useStyles = makeStyles({
-    drawer: {
-        zIndex:200,
-        width: 250
-    }
-});
-
+import { Drawer } from '@mui/material';
+import useStyle from '../Styles/MenuStyles';
+import { ListItemIcon} from '@mui/material';
+import { Divider,Typography } from '@mui/material';
+import {Home} from '@mui/icons-material'
+import classNames from 'classnames';
+import DashBoard from '../DashBoards/DashBoard'
 function LeftMenu(props) {
-    const classes = useStyles()
-    const [isDrawerOpen, setIsDrawerOpen]=[props.isDrawerOpen,props.setIsDrawerOpen]
+    const classes = useStyle()
+    const {open, setOpen}=props;
     return(
-        <Drawer open={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
-        <List className={classes.drawer}>
-            <ListItem button>
-                <ListItemText primary="Home" />
-            </ListItem>
-
-            <ListItem button>
-                <ListItemText primary="About" />
-            </ListItem>
-
-            <ListItem button>
-                <ListItemText primary="Contact" />
-            </ListItem>
-
-            <ListItem button>
-                <ListItemText primary="Services" onClick={()=>alert('service')} />
-            </ListItem>
+        <Drawer
+          variant="permanent"
+          className={classNames(classes.drawer, {
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open
+          })}
+          classes={{
+            paper: classNames({
+              [classes.drawerOpen]: open,
+              [classes.drawerClose]: !open
+            })
+          }}
+          open={open}
+        >
+        <div className={classes.toolbar} />
+        <List>
+            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <Home /> : <Home />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {["All mail", "Trash", "Spam"].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <Home /> : <Home />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
         </List>
     </Drawer>
+    // <main className={classes.content}>
+    //       <div className={classes.toolbar} />
+    //       <DashBoard />
+    //       <Typography paragraph>foo</Typography>
+    //     </main>
+    // </>
     )
 }
 

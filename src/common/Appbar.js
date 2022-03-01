@@ -8,16 +8,43 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import LeftMenu from './LeftMenu';
+import useStyle from '../Styles/MenuStyles';
+import { CssBaseline } from '@mui/material';
+import Menu from "@material-ui/core/Menu";
+import classNames from "classnames";
+import clsx from 'clsx';
+
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import { EmailOutlined } from '@mui/icons-material';
-import LeftMenu from './LeftMenu';
-
+import ListItemText from '@mui/material/ListItemText';
+import { Drawer } from '@mui/material';
+import { ListItemIcon } from '@mui/material';
+import { Divider } from '@mui/material';
+import { Home } from '@mui/icons-material'
 
 function Appbar() {
     const history = useNavigate()
-    const [toggle, setToggle] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null)
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const classes = useStyle()
+
+    const handleDrawerOpen = () => {
+        setOpen(!open);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
+    const handleMenu = event => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     const handleLogin = () => {
         return history('/login');
     }
@@ -27,28 +54,81 @@ function Appbar() {
 
     return (
         <>
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" >
-                    <Toolbar>
+            {/* <Box sx={{ flexGrow: 1 }}> */}
+            <div className={classes.root}>
+                <CssBaseline />
+                <AppBar
+                    position="fixed"
+                    // className={classes.appBar}
+                    className={clsx(classes.appBar, {
+                        [classes.appBarShift]: open
+                    })}
+                >
+                    <Toolbar disableGutters={true}>
                         <IconButton
-                            size="large"
-                            edge="start"
                             color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                            onClick={() => setIsDrawerOpen(true)}
+                            aria-label="Open drawer"
+                            onClick={handleDrawerOpen}
+                            className={classes.menuButton}
                         >
-                            <MenuIcon />
+                            <MenuIcon
+                                classes={{
+                                    root: open
+                                        ? classes.menuButtonIconOpen
+                                        : classes.menuButtonIconClosed
+                                }}
+                            />
                         </IconButton>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 2 }}>
+                        <Typography variant="h6"
+                            color="inherit"
+                            className={classes.grow}
+                            noWrap>
                             Quiz Portal For geeks
                         </Typography>
-                        <LeftMenu isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
-                        <Button color="inherit" onClick={handleLogin}>Login</Button>
-                        <Button color='inherit' onClick={handleRegister}>Register</Button>
+                        {/* <Button color="inherit" onClick={handleLogin}>Login</Button>
+                        <Button color='inherit' onClick={handleRegister}>Register</Button> */}
                     </Toolbar>
-                </AppBar>
-            </Box>
+                    </AppBar>
+                <Drawer
+                    variant="permanent"
+                    className={clsx(classes.drawer, {
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open
+                    })}
+                    classes={{
+                        paper: clsx({
+                            [classes.drawerOpen]: open,
+                            [classes.drawerClose]: !open
+                        })
+                    }}
+                    open={open}
+                >
+                    <div className={classes.toolbar} />
+                    <List>
+                        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon>
+                                    {index % 2 === 0 ? <Home /> : <Home />}
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Divider />
+                    <List>
+                        {["All mail", "Trash", "Spam"].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon>
+                                    {index % 2 === 0 ? <Home /> : <Home />}
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Drawer>
+                {/* <LeftMenu open={open} setOpen={setOpen} /> */}
+            </div>
+            {/* </Box> */}
         </>
     );
 }

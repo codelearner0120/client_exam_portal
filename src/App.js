@@ -8,12 +8,17 @@ import RegistrationForm from './Forms/RegistrationForm';
 import Appbar from './common/Appbar';
 import NewUserForm from './component/NewUserForm';
 import { useAgent } from './Forms/useAgent';
+import { ThemeProvider } from '@mui/styles';
+import theme from './Styles/Theme';
+
 function App() {
   const {isLoggedIn}=useAgent();
   console.log("user is login ",isLoggedIn())
   return (
     <div className="App">
+      <ThemeProvider theme={theme}>
       <RoutesWrapper />
+      </ThemeProvider>
     </div>
   );
 }

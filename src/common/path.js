@@ -5,3 +5,6 @@ export const USER="/user";
 export const ADMIN="/admin";
 export const ADD_USER="user/adduser"
 export const GENRATE_TOKEN="generate-token"
+export const HOME="home"
+export const SLASH="/"
+export const QUIZ="quiz"
