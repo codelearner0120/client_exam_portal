@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import { withStyles } from "@material-ui/core/styles";
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -22,13 +23,14 @@ import { Drawer } from '@mui/material';
 import { ListItemIcon } from '@mui/material';
 import { Divider } from '@mui/material';
 import { Home } from '@mui/icons-material'
+import { style } from '../Styles/MenuStyles';
 
-function Appbar() {
+function Appbar(props) {
     const history = useNavigate()
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null)
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const classes = useStyle()
+    const {classes} = props;
 
     const handleDrawerOpen = () => {
         setOpen(!open);
@@ -36,13 +38,6 @@ function Appbar() {
 
     const handleDrawerClose = () => {
         setOpen(false);
-    };
-
-    const handleMenu = event => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
     };
 
     const handleLogin = () => {
@@ -59,8 +54,8 @@ function Appbar() {
                 <CssBaseline />
                 <AppBar
                     position="fixed"
-                    // className={classes.appBar}
-                    className={clsx(classes.appBar, {
+                    className={classes.appBar}
+                    foojon={classNames(classes.appBar, {
                         [classes.appBarShift]: open
                     })}
                 >
@@ -91,12 +86,12 @@ function Appbar() {
                     </AppBar>
                 <Drawer
                     variant="permanent"
-                    className={clsx(classes.drawer, {
+                    className={classNames(classes.drawer, {
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open
                     })}
                     classes={{
-                        paper: clsx({
+                        paper: classNames({
                             [classes.drawerOpen]: open,
                             [classes.drawerClose]: !open
                         })
@@ -132,5 +127,5 @@ function Appbar() {
         </>
     );
 }
-
-export default Appbar;
+// export default Appbar
+export default withStyles(style)(Appbar)

@@ -12,27 +12,29 @@ import { ThemeProvider } from '@mui/styles';
 import theme from './Styles/Theme';
 import { CssBaseline } from '@mui/material';
 import Main from './Main';
+import NewAppBar from './common/NewAppBar'
+
 function App() {
   const {isLoggedIn}=useAgent();
   console.log("user is login ",isLoggedIn())
   return (
     <div className="App">
    <CssBaseline />
-   <Main />
+   <RoutesWrapper />
     </div>
   );
 }
 function RoutesWrapper() {
   return (
     <>
-    <Appbar />
+    <NewAppBar />
     <Routes>
-      {/* <Route path="/" element={<Appbar />}></Route> */}
+      <Route exact path="/" element={<Appbar />}></Route>
       <Route exact path="/home" element={<Home />}></Route>
       <Route exact path="/login" element={<LoginForm />}></Route>
       <Route exact path="/register" element={<RegistrationForm />}></Route>
       <Route exact path="/newuser" element={<NewUserForm/>}></Route>
-    </Routes>
+    </Routes>   
     </>
   );
 }

@@ -84,7 +84,7 @@ const styles = theme => ({
   toolbar: {
     display: "flex",
     alignItems: "center",
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
     justifyContent: "flex-end",
     padding: "0 8px",
     ...theme.mixins.toolbar
