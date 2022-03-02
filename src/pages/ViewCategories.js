@@ -1,16 +1,19 @@
 import React from 'react'
-import { Accordion, AccordionSummary, Typography, AccordionDetails, Grid } from '@mui/material'
+import { Accordion, AccordionSummary, Typography, AccordionDetails, Grid, Container } from '@mui/material'
 import { ExpandMore } from '@mui/icons-material'
 import { categoryData } from '../Data/quiz'
 import { RegularButton } from '../common/Buttons'
+import { useNavigate } from 'react-router-dom'
 
 function ViewCategories() {
+    const navigation=useNavigate();
     const addcategory=()=>{
-        
+        navigation("/addcategory")
     }
     return (
         <>
-            <Accordion expanded={true}>
+        <Container maxWidth="md">
+            <Accordion expanded={true} >
                 <AccordionSummary
                     expandIcon={<ExpandMore />}
                     aria-controls="panel1a-content"
@@ -45,6 +48,7 @@ function ViewCategories() {
             onClick={addcategory}
             >
                 Add category</RegularButton>
+                </Container>
         </>
     )
 }

@@ -19,7 +19,7 @@ export default function LoginForm() {
     navigation(path)
   }
   const classes = useSignInStyles()
-  const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 6000 })
+  const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 3000 })
   const {saveInStorage}=useAgent();
   const handleSubmit = (event) => {
     event.preventDefault();
