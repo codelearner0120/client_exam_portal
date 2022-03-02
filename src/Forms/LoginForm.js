@@ -11,8 +11,13 @@ import axios from 'axios';
 import { BASE_URL,GENRATE_TOKEN } from '../common/path';
 import { useAgent } from './useAgent';
 import Notification from '../common/Notification';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginForm() {
+  const navigation=useNavigate();
+  const redirect=(path)=>{
+    navigation(path)
+  }
   const classes = useSignInStyles()
   const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 6000 })
   const {saveInStorage}=useAgent();
@@ -29,7 +34,7 @@ export default function LoginForm() {
     axios.post(`${BASE_URL}/${GENRATE_TOKEN}`, userAuth).then(response => {
     saveInStorage(response.data.token)
     setNotification({open:true,msg:'login successfully',type:'success',hideDuration:3000})
-     
+    redirect("/home");
     }).catch(error=>{
     setNotification({open:true,msg:'Login failed!',type:'error',hideDuration:3000})
     })

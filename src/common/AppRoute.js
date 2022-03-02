@@ -5,6 +5,10 @@ import Home from '../component/Home';
 import LoginForm from '../Forms/LoginForm';
 import RegistrationForm from '../Forms/RegistrationForm';
 import NewUserForm from '../component/NewUserForm';
+import AddQuiz from '../pages/AddQuiz';
+import Quizes from '../pages/Quizes';
+import ViewCategories from '../pages/ViewCategories';
+import AddCategory from '../pages/AddCategory'
 
 function AppRoute() {
   return (
@@ -15,6 +19,10 @@ function AppRoute() {
           <Route exact path="/login" element={<LoginForm />}></Route>
           <Route exact path="/register" element={<RegistrationForm />}></Route>
           <Route exact path="/newuser" element={<NewUserForm />}></Route>
+          <Route exact path="/addquiz" element={<AddQuiz />}></Route>
+          <Route exact path="/quiz" element={<Quizes/>}></Route>
+          <Route exact path="/categories" element={<ViewCategories/>}></Route>
+          <Route exact path="/addcategory" element={<AddCategory />}></Route>
         </Routes>
     </>
   )

@@ -30,9 +30,8 @@ function LeftMenu(props) {
 
       </Drawer>
       <main className={classes.content}>
-        {/* <div className={classes.toolbar} /> */}
+        <div className={classes.toolbar} />
         <AppRoute />
-        <Typography paragraph>foo</Typography>
       </main>
     </>
   )
