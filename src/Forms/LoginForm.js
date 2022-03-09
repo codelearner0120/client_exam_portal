@@ -32,7 +32,10 @@ export default function LoginForm() {
     }
     console.log(userAuth)
     axios.post(`${BASE_URL}/${GENRATE_TOKEN}`, userAuth).then(response => {
-    saveInStorage(response.data.token)
+    axios.get(`${BASE_URL}/current-user`,{ headers: {"Authorization" : `Bearer ${response.data.token}`} }).then(res=>{
+      saveInStorage('user',res.data);
+    })
+    saveInStorage('jwt',response.data.token) 
     setNotification({open:true,msg:'login successfully',type:'success',hideDuration:3000})
     redirect("/home");
     }).catch(error=>{

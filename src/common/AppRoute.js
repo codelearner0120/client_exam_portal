@@ -9,6 +9,8 @@ import AddQuiz from '../pages/AddQuiz';
 import Quizes from '../pages/Quizes';
 import ViewCategories from '../pages/ViewCategories';
 import AddCategory from '../pages/AddCategory'
+import Profile from '../pages/Profile';
+import UserDeshboard from '../DashBoards/UserDeshboard';
 
 function AppRoute() {
   return (
@@ -16,6 +18,7 @@ function AppRoute() {
         <Routes>
           <Route exact path="/" element={<DashBoard />}></Route>
           <Route exact path="/home" element={<Home />}></Route>
+          <Route exact path="/home" element={<UserDeshboard />}></Route>
           <Route exact path="/login" element={<LoginForm />}></Route>
           <Route exact path="/register" element={<RegistrationForm />}></Route>
           <Route exact path="/newuser" element={<NewUserForm />}></Route>
@@ -23,6 +26,7 @@ function AppRoute() {
           <Route exact path="/quiz" element={<Quizes/>}></Route>
           <Route exact path="/categories" element={<ViewCategories/>}></Route>
           <Route exact path="/addcategory" element={<AddCategory />}></Route>
+          <Route exact path="/profile" element={<Profile />}></Route>
         </Routes>
     </>
   )

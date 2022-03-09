@@ -5,7 +5,9 @@ import { Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { TextareaAutosize } from '@mui/material'
 import { RegularButton } from '../common/Buttons'
-
+import axios from 'axios'
+import { BASE_URL,ADD_CATEGORY,CATEGORY } from '../common/path'
+import { useAgent } from '../Forms/useAgent'
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(0),
@@ -22,10 +24,23 @@ const useStyles = makeStyles((theme) => ({
 function AddCategory() {
     const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 3000 })
     const classes = useStyles();
+    const userInfo=useAgent()
     const handleSubmit=(event)=>{
         event.preventDefault();
         const newCatogery=new FormData(event.currentTarget);
-        alert("clicked "+newCatogery.get('title'))
+        let category={
+            title:newCatogery.get('title'),
+            description:newCatogery.get('description')
+        }
+        let url=BASE_URL+"/"+CATEGORY+"/"+ADD_CATEGORY;
+        let token=userInfo.getJwtToken();
+        axios.post(url,category,{ headers: {"Authorization" : `Bearer ${token}`} }).then(res=>{
+            alert("Category added successfully!")
+        }).catch(error=>{
+            console.log(url)
+            console.log(token)
+            alert("something went wrong")
+        })
     }
     return (
         <Container component={Paper} maxWidth="sm" elevation={3}>
@@ -58,7 +73,6 @@ function AddCategory() {
                         autoComplete="description"
                         minRows={3}
                         multiline={true}
-                        autoFocus
                     />
                     <RegularButton type="submit">Add</RegularButton>
                 </form>

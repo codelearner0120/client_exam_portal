@@ -4,6 +4,8 @@ import { ListItemIcon,List,ListItem,ListItemText} from '@mui/material';
 import { AddBox } from '@material-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import { AccountCircle } from '@mui/icons-material';
+import { Button } from '@material-ui/core';
+import { useAgent } from '../Forms/useAgent';
 
 const leftMenu=[
     {
@@ -35,18 +37,18 @@ const leftMenu=[
         name:'Add category',
         path:'addcategory',
         icon:<Queue />
-    },
-    {
-        name:'Logout',
-        path:'logout',
-        icon:<ExitToApp />
-    },
+    }
 ]
 
 export default function LeftMenuItems(){
     const url=useNavigate();
+    const userInfo=useAgent();
     const redirect=(path)=>{
         url('/'+path)
+    }
+    const logOut=()=>{
+        userInfo.logout();
+        url(path.BASE)
     }
     return(
         <List>
@@ -58,6 +60,16 @@ export default function LeftMenuItems(){
                 <ListItemText primary={text.name} />
               </ListItem>
             ))}
+            <ListItem button >
+                <ListItemIcon>
+                    <ExitToApp />
+                </ListItemIcon>
+                <Button variant='contained' 
+                color='secondary' 
+                size='small'
+                onClick={logOut}
+                >Logout</Button>
+            </ListItem>
         </List>
     )
 }

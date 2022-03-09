@@ -32,7 +32,7 @@ function LeftMenu(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <AppRoute />
-      </main>
+        </main>
     </>
   )
 }

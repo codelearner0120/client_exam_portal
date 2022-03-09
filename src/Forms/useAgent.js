@@ -15,7 +15,7 @@ export const useAgent=()=>{
     //     })
     // }
     const clearStorage=()=>{
-        // localStorage.removeItem("agent");
+        localStorage.removeItem("user");
         localStorage.removeItem("jwt");
     }
     const logout=()=>{
@@ -23,6 +23,10 @@ export const useAgent=()=>{
     }
     const getJwtToken=()=>{
         return localStorage.getItem("jwt");
+    }
+    const getUser=()=>{
+        let userStr=localStorage.getItem("user");
+        return JSON.parse(userStr);
     }
     const isLoggedIn=()=>{
         // const unParsedAgent=localStorage.getItem("agent");
@@ -42,8 +46,11 @@ export const useAgent=()=>{
         // }
         return true;
     }
-    const saveInStorage=(jwt)=>{
-        localStorage.setItem('jwt',jwt);
+    const saveInStorage=(dataType,data)=>{
+        if(dataType==='jwt') localStorage.setItem('jwt',data);
+        if(dataType==='user') {
+            localStorage.setItem('user',JSON.stringify(data));
+        }
     }
     const onReload=()=>{
         const jwt=localStorage.getItem("jwt");
@@ -56,6 +63,6 @@ export const useAgent=()=>{
         // initiateBackgroundTokenRefresh(jwt);
     }
    return {
-        isLoggedIn,onReload,logout,saveInStorage,getJwtToken
+        isLoggedIn,onReload,logout,saveInStorage,getJwtToken,getUser
     }
 }

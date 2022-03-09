@@ -11,9 +11,14 @@ import { style } from "../Styles/MenuStyles";
 import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import LeftMenu from "./LeftMenu";
+import { useAgent } from "../Forms/useAgent";
+import { Avatar } from '@mui/material';
+import { deepOrange } from '@mui/material/colors';
 
 function NewAppBar(props) {
     const history = useNavigate()
+    const userInfo=useAgent();
+    const isLoggedIn=userInfo.isLoggedIn();
     const [state, setState] = useState({
         open: false
     });
@@ -63,8 +68,16 @@ function NewAppBar(props) {
                     >
                         Quiz Portal for geeks
                     </Typography>
+                    {!isLoggedIn&&
+                    <>
                     <Button color="inherit" onClick={handleLogin}>Login</Button>
                     <Button color='inherit' onClick={handleRegister}>Register</Button>
+                    </>
+                    }
+                    {
+                        isLoggedIn&&
+                        <Avatar sx={{ bgcolor: deepOrange[500] ,marginRight:'5px'}}>A</Avatar>
+                    }       
                 </Toolbar>
             </AppBar>
             <LeftMenu open={state.open} />
