@@ -18,7 +18,7 @@ function QuestionOfQuiz() {
     }).then(res => {
       setQuestionList(res.data)
     }).catch(error => {
-      console.log('error find!')
+      console.log('errors find!')
     })
   }, [])
 
