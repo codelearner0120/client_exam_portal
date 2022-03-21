@@ -18,7 +18,7 @@ function ViewCategories() {
     let url=BASE_URL+"/"+CATEGORY+"/"+ALL_CATEGORIES;
     let token=userInfo.getJwtToken();
     useEffect(()=>{
-          axios.get(url,{ headers: {"Authorization" : `Bearer ${token}`} }).then(res=>{
+          axios.get(url,{ headers: userInfo.authToken() }).then(res=>{
             setCategory(res.data)
             console.log(userInfo.getUser())
         }).catch(error=>{

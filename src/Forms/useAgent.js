@@ -14,6 +14,9 @@ export const useAgent=()=>{
     //         }
     //     })
     // }
+    const authToken=()=>{
+        return {"Authorization" : `Bearer ${getJwtToken()}`};
+    }
     const clearStorage=()=>{
         localStorage.removeItem("user");
         localStorage.removeItem("jwt");
@@ -63,6 +66,6 @@ export const useAgent=()=>{
         // initiateBackgroundTokenRefresh(jwt);
     }
    return {
-        isLoggedIn,onReload,logout,saveInStorage,getJwtToken,getUser
+        isLoggedIn,onReload,logout,saveInStorage,getJwtToken,getUser,authToken
     }
 }

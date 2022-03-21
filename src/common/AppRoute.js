@@ -11,6 +11,7 @@ import ViewCategories from '../pages/ViewCategories';
 import AddCategory from '../pages/AddCategory'
 import Profile from '../pages/Profile';
 import UserDeshboard from '../DashBoards/UserDeshboard';
+import QuestionOfQuiz from '../pages/QuestionOfQuiz';
 
 function AppRoute() {
   return (
@@ -27,6 +28,7 @@ function AppRoute() {
           <Route exact path="/categories" element={<ViewCategories/>}></Route>
           <Route exact path="/addcategory" element={<AddCategory />}></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
+          <Route exact path="/questions/quiz/:quizId" element={<QuestionOfQuiz />}></Route>
         </Routes>
     </>
   )
