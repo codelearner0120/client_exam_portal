@@ -4,9 +4,7 @@ const SLASH="/"
 
 
 //categories
-export const CATEGORY=BASE_URL+"/category";
-export const VIEW_ALL_CATEGORY=CATEGORY+"/allcategories"
-export const ADD_CATEGORY=CATEGORY+"/addcategory"
+export const CATEGORY=BASE_URL+"/category/";
 
 //quiz
 export const QUIZ=BASE_URL+"/quiz/"

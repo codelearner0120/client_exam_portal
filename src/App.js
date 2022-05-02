@@ -2,10 +2,15 @@ import './App.css';
 import { useAgent } from './Forms/useAgent';
 import { CssBaseline } from '@mui/material';
 import NewAppBar from './common/NewAppBar'
+import {useEffect} from 'react'
 
 function App() {
   const {isLoggedIn}=useAgent();
   if(isLoggedIn) console.log('true')
+  useEffect(() => {
+    document.title='quiz portal'
+  }, [])
+  
   return (
     <div className="App">
       <CssBaseline />

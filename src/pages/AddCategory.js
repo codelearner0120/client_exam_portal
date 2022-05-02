@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles'
 import { TextareaAutosize } from '@mui/material'
 import { RegularButton } from '../common/Buttons'
 import axios from 'axios'
-import { BASE_URL,ADD_CATEGORY,CATEGORY } from '../common/path'
+import {CATEGORY} from '../common/ApiEndPoints'
 import { useAgent } from '../Forms/useAgent'
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -32,7 +32,7 @@ function AddCategory() {
             title:newCatogery.get('title'),
             description:newCatogery.get('description')
         }
-        let url=BASE_URL+"/"+CATEGORY+"/"+ADD_CATEGORY;
+        let url=CATEGORY;
         let token=userInfo.getJwtToken();
         axios.post(url,category,{ headers: {"Authorization" : `Bearer ${token}`} }).then(res=>{
             alert("Category added successfully!")

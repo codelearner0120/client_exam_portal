@@ -6,9 +6,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function AlertDialog({open,body,title,handleClose}) {
+export default function Popup({open,body,title,handleClose,okButtonName,
+  closeButtonName,handleOk,handleCancel}) {
 
-    console.log('jiid hdo hfo hs')
   return (
     <div>
       <Dialog
@@ -24,8 +24,8 @@ export default function AlertDialog({open,body,title,handleClose}) {
           {body}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>Agree</Button>
+          <Button onClick={handleOk||handleClose}>{closeButtonName||'cancel'}</Button>
+          <Button onClick={handleCancel||handleClose} autoFocus>{okButtonName||'ok'}</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -10,8 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios'
-import { BASE_URL,CATEGORY,ALL_CATEGORIES } from '../common/path'
-import {QUIZ,VIEW_ALL_CATEGORY} from '../common/ApiEndPoints'
+import {QUIZ,CATEGORY} from '../common/ApiEndPoints'
 import { useAgent } from '../Forms/useAgent'
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +38,7 @@ function AddQuiz(props) {
   };
 
   useEffect(()=>{
-    axios.get(VIEW_ALL_CATEGORY,{
+    axios.get(CATEGORY,{
       headers:userInfo.authToken()
     }).then(response=>{
       console.log(response)
@@ -53,13 +52,13 @@ function AddQuiz(props) {
     let quiz = {
       title: formData.get('title'),
       description: formData.get('description'),
-      noOfQuestion: 55,
-      maxMarks: 120,
+      noOfQuestion: formData.get('question'),
+      maxMarks: formData.get('marks'),
       category: {
-        cid: 16
+        cid: age
       }
     }
-    axios.post(QUIZ,quiz,{headers:userInfo.authToken()}).then(res=>{
+     axios.post(QUIZ,quiz,{headers:userInfo.authToken()}).then(res=>{
       alert("successfully added!")
       console.log(res)
     }).catch(error=>{

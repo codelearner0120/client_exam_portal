@@ -12,6 +12,7 @@ import AddCategory from '../pages/AddCategory'
 import Profile from '../pages/Profile';
 import UserDeshboard from '../DashBoards/UserDeshboard';
 import QuestionOfQuiz from '../pages/QuestionOfQuiz';
+import AddorUpdateQuestion from '../pages/AddorUpdateQuestion';
 
 function AppRoute() {
   return (
@@ -29,6 +30,8 @@ function AppRoute() {
           <Route exact path="/addcategory" element={<AddCategory />}></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route exact path="/questions/quiz/:quizId" element={<QuestionOfQuiz />}></Route>
+          <Route exact path="/addquestion/quiz/:quizId" element={<AddorUpdateQuestion update={false}/>}></Route>
+          <Route exact path="/updatequestion/:quesId/quiz/:quizId" element={<AddorUpdateQuestion update={true}/>}></Route>
         </Routes>
     </>
   )

@@ -22,7 +22,7 @@ export function DeleteButton({color,variant,size,children,loading,...props}){
     return(
         <Button
             fullWidth={props.fullWidth||false}
-            color={color||"secondary"}
+            color={color||"error"}
             variant={variant||"contained"}
             size={size||'small'}
             disabled={loading}
