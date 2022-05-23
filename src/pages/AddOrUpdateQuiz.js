@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios'
+import { useLocation } from 'react-router-dom'
 import {QUIZ,CATEGORY} from '../common/ApiEndPoints'
 import { useAgent } from '../Forms/useAgent'
 
@@ -27,10 +28,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 function AddQuiz(props) {
-  console.log(props)
   const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 3000 })
   const classes = useStyles();
+  const location = useLocation();
   const [age, setAge] = React.useState('');
+  const requestHeader = useAgent().authToken()
   let [category,setCategory]=useState([])
   const userInfo=useAgent();
   const handleChange = (event) => {
@@ -44,6 +46,13 @@ function AddQuiz(props) {
       console.log(response)
       setCategory(response.data)
     })
+    if(props.update){
+      let urlSplit = location.pathname.split('/');
+      let quizId=urlSplit[urlSplit.length-1];
+      axios.get(QUIZ+quizId,{ headers: requestHeader }).then(res=>{
+        // setNotification({open:true,msg:'Quiz updated successfully!',type:'success',hideDuration:3000})
+      })
+    }
   },[]);
 
   const handleSubmit = (event) => {
@@ -59,11 +68,11 @@ function AddQuiz(props) {
       }
     }
      axios.post(QUIZ,quiz,{headers:userInfo.authToken()}).then(res=>{
-      alert("successfully added!")
-      console.log(res)
+      setNotification({open:true,msg:'Quiz added successfully!',type:'success',hideDuration:3000})
+      // setQuiz(null);
     }).catch(error=>{
       console.log(error)
-      alert("Error is there!")
+      setNotification({open:true,msg:'Something went wrong',type:'error',hideDuration:3000})
     })
   }
   return (
@@ -72,7 +81,7 @@ function AddQuiz(props) {
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5" sx={{ marginTop: '5px' }}>
-          Add Quiz
+         {props.update===true?"Update Quiz":"Add Quiz"}
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
@@ -96,7 +105,7 @@ function AddQuiz(props) {
             name="description"
             autoComplete="description"
             minRows={3}
-            multiline={true}
+            multiline={true} 
           />
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <TextField
@@ -113,7 +122,7 @@ function AddQuiz(props) {
               margin="normal"
               required
               id="maxMarks"
-              label="Marks"
+              label="Marks Per Question"
               name="marks"
             />
           </div>
@@ -134,7 +143,7 @@ function AddQuiz(props) {
               }
             </Select>
           </FormControl>
-          <RegularButton type="submit" sx={{ marginTop: '15px' }}>Add</RegularButton>
+          <RegularButton type="submit" sx={{ marginTop: '15px' }}>{props.update===true?"update":"Add"}</RegularButton>
         </form>
       </div>
     </Container>

@@ -60,7 +60,9 @@ function AddorUpdateQuestion(props) {
   const updateQuestion = () => {
     axios.put(QUESTION, question, { headers: requestHeader }).then(res => {
       setNotification({ open: true, msg: "Question updated Sucsessfully!", type: "success", hideDuration: 3000 })
-      navigation(-1)
+      setTimeout(() => {
+        navigation(-1)
+      }, 1000)
     }).catch(error => {
       setNotification({ open: true, msg: "Something went wrong", type: "error", hideDuration: 3000 })
     })
@@ -71,18 +73,19 @@ function AddorUpdateQuestion(props) {
       updateQuestion();
       return;
     }
-    let questionObject = Object.keys(question).
-      filter((key) => key !== 'quesId').
-      reduce((cur, key) => { return Object.assign(cur, { [key]: question[key] }) }, {});
-    console.log(questionObject)
-    axios.post(QUESTION, questionObject, { headers: requestHeader }).then(res => {
+    console.log(question)
+    if(!question.answer){
+      setNotification({ open: true, msg: "Please choose an answer!", type: "error", hideDuration: 3000 })
+      return;
+    }
+    axios.post(QUESTION, question, { headers: requestHeader }).then(res => {
       if (res.status === 200) {
-        console.log('everything okkk')
         setNotification({ open: true, msg: "Question added Sucsessfully!", type: "success", hideDuration: 3000 })
-        navigation(-1)
+        // setQuestion(null)
       }
     }).catch(error => {
       console.log(error)
+      setNotification({ open: true, msg: "Something went wrong", type: "error", hideDuration: 3000 })
     })
   }
   const handleChange = (e) => {
@@ -99,7 +102,8 @@ function AddorUpdateQuestion(props) {
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5" sx={{ marginTop: '5px' }}>
-          Add Question
+          {props.update ? "Update " : "Add "}
+          Question
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
@@ -176,7 +180,7 @@ function AddorUpdateQuestion(props) {
               }
             </Select>
           </FormControl>
-          <RegularButton type="submit" sx={{ marginTop: '15px' }}>Add</RegularButton>
+          <RegularButton type="submit" sx={{ marginTop: '15px' }}>{props.update ? "Update " : "Add "}</RegularButton>
         </form>
       </div>
     </Container>

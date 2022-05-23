@@ -24,8 +24,8 @@ export default function Popup({open,body,title,handleClose,okButtonName,
           {body}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleOk||handleClose}>{closeButtonName||'cancel'}</Button>
-          <Button onClick={handleCancel||handleClose} autoFocus>{okButtonName||'ok'}</Button>
+          <Button onClick={handleCancel||handleClose}>{closeButtonName||'cancel'}</Button>
+          <Button onClick={handleOk||handleClose} autoFocus>{okButtonName||'ok'}</Button>
         </DialogActions>
       </Dialog>
     </div>

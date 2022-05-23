@@ -8,26 +8,31 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Switch from '@mui/material/Switch';
-import AddQuiz from './AddQuiz'
+import AddQuiz from './AddOrUpdateQuiz'
 import { useNavigate } from 'react-router-dom';
 import { QUIZ } from '../common/ApiEndPoints';
 import axios from 'axios';
 import { useAgent } from '../Forms/useAgent';
 import Notification from '../common/Notification';
 
-
+let marks_per_question=5;
 
 function Quizes() {
   const [allQuiz,setAllQuiz]=useState([])
   const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 3000 })
   const userInfo=useAgent();
-
+  const path=useNavigate()
   useEffect(() => {
     axios.get(QUIZ,{headers:userInfo.authToken()}).then(response=>{
       setAllQuiz(response.data)
     })
   }, [])
 
+  const handleUpdateQuiz=(quiz)=>{
+    let updatationUrl="update/"+quiz.quizId
+    console.log(updatationUrl)
+    path(updatationUrl)
+  }
   const handleDeleteQuiz=(e)=>{
     let url=QUIZ+e.toString()
     axios.delete(url,{headers:userInfo.authToken()}).then(response=>{
@@ -58,7 +63,7 @@ function Quizes() {
           <Button size="small" variant='contained' onClick={
             ()=>{path("/questions/quiz/"+quiz.quizId.toString())}
           }>Questions </Button>
-          <Button size="small">Max Marks :{quiz.maxMarks}</Button>
+          <Button size="small">Max Marks :{quiz.noOfQuestion*marks_per_question}</Button>
           <Button size='small'> Published
           <Switch
             checked={checked}
@@ -68,7 +73,7 @@ function Quizes() {
           </Button>
           <Button size="small">Question :{quiz.noOfQuestion}</Button>
           <Button variant='contained' 
-            onClick={(e)=>{path('/addquiz')}}
+            onClick={()=>{handleUpdateQuiz(quiz)}}
           >Update</Button>
           <Button variant='contained' onClick={()=>{handleDeleteQuiz(quiz.quizId)}} color='error'>
             DELETE</Button>
