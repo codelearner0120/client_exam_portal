@@ -13,8 +13,16 @@ import Profile from '../pages/Profile';
 import UserDeshboard from '../DashBoards/UserDeshboard';
 import QuestionOfQuiz from '../pages/QuestionOfQuiz';
 import AddorUpdateQuestion from '../pages/AddorUpdateQuestion';
+import {useAgent} from '../Forms/useAgent'
 
 function AppRoute() {
+  // let user=useAgent().getUser();
+  // console.log(user.authorities[0].authority)
+  const PrivateRoute=({roles,path,element})=>{
+    return <Route exact path={path} element={element}></Route>
+    if(!roles) return <div>You are not authorized person!!</div>
+    let isAuthorized=false; 
+  }
   return (
     <>
       <Routes>

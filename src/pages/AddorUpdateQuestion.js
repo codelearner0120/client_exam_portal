@@ -69,13 +69,16 @@ function AddorUpdateQuestion(props) {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (props.update) {
-      updateQuestion();
+    let answerPresent=false;
+    optionList.map(answer=>{
+      if(answer===question.answer) answerPresent=true;
+    })
+    if(!answerPresent){
+      setNotification({ open: true, msg: "Please choose an answer!", type: "error", hideDuration: 3000 })
       return;
     }
-    console.log(question)
-    if(!question.answer){
-      setNotification({ open: true, msg: "Please choose an answer!", type: "error", hideDuration: 3000 })
+    if (props.update) {
+      updateQuestion();
       return;
     }
     axios.post(QUESTION, question, { headers: requestHeader }).then(res => {

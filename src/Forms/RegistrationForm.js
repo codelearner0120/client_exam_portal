@@ -14,8 +14,6 @@ import { RegistrationError } from './FormError';
 
 function RegistrationForm() {
   const classes=useSignInStyles()
-  const [error,setError]=useState(false);
-  console.log(error," this was error")
   const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 3000 })
  
   const FormField = (props) => {
@@ -46,12 +44,7 @@ function RegistrationForm() {
       lastName:formData.get('lastName'),
       phone:formData.get('phone')
     }
-    RegistrationError(user,setError,setNotification)
-    if(error){
-      setError(false)
-      
-      return;
-    }
+    if(RegistrationError(user,setNotification)) return;
     axios.post(`${BASE_URL}/${ADD_USER}`,user).then(res=>{
     console.log(res)
     if(res.data.status){
@@ -93,7 +86,8 @@ function RegistrationForm() {
       <FormField id="phone" label="Phone No" name="phone"  />
       <div style={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>
     <RegularButton type="submit">Register</RegularButton>
-    <DeleteButton>Cancel</DeleteButton>
+    <DeleteButton onClick={(event)=>{const formData = new FormData(event.currentTarget);
+    console.log(formData.get('email'));}}>Cancel</DeleteButton>
     </div>
     </form>
     </div>

@@ -5,8 +5,7 @@ import NewAppBar from './common/NewAppBar'
 import {useEffect} from 'react'
 
 function App() {
-  const {isLoggedIn}=useAgent();
-  if(isLoggedIn) console.log('true')
+  
   useEffect(() => {
     document.title='quiz portal'
   }, [])

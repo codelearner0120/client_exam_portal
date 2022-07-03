@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios'
-import { useLocation } from 'react-router-dom'
+import { useLocation,useNavigate } from 'react-router-dom'
 import {QUIZ,CATEGORY} from '../common/ApiEndPoints'
 import { useAgent } from '../Forms/useAgent'
 
@@ -31,12 +31,21 @@ function AddQuiz(props) {
   const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 3000 })
   const classes = useStyles();
   const location = useLocation();
-  const [age, setAge] = React.useState('');
+  const navigation = useNavigate()
   const requestHeader = useAgent().authToken()
-  let [category,setCategory]=useState([])
+  const [category,setCategory]=useState([])
+  const [quiz,setQuiz]=useState({
+    title:'',
+    description:'',
+    noOfQuestion:0,
+    maxMarks:0,
+    category:{
+      cid:0
+    }
+  })
   const userInfo=useAgent();
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handleChanges = (event) => {
+    quiz.category.cid=event.target.value
   };
 
   useEffect(()=>{
@@ -50,26 +59,47 @@ function AddQuiz(props) {
       let urlSplit = location.pathname.split('/');
       let quizId=urlSplit[urlSplit.length-1];
       axios.get(QUIZ+quizId,{ headers: requestHeader }).then(res=>{
-        // setNotification({open:true,msg:'Quiz updated successfully!',type:'success',hideDuration:3000})
+        console.log(res.data)
+        setQuiz(res.data)
+        
       })
     }
   },[]);
 
+  const handleChange=(e)=>{
+    const {name,value}=e.target;
+    setQuiz({
+      ...quiz,[name]:value
+    })
+  }
+
+  const updateQuiz=()=>{
+    axios.put(QUIZ,quiz,{headers:userInfo.authToken()}).then(res=>{
+      setNotification({open:true,msg:'Quiz updated successfully!',type:'success',hideDuration:3000})
+      setTimeout(() => {
+        navigation(-1)
+      }, 1000)
+    }).catch(error=>{
+      console.log(error)
+      setNotification({open:true,msg:'Something went wrong while updating quiz',type:'error',hideDuration:3000})
+    })
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    let quiz = {
-      title: formData.get('title'),
-      description: formData.get('description'),
-      noOfQuestion: formData.get('question'),
-      maxMarks: formData.get('marks'),
-      category: {
-        cid: age
-      }
+    if(props.update){
+      console.log(quiz)
+      updateQuiz();
+      return;
+    }
+    if(!quiz.category){
+      setNotification({open:true,msg:'Please add category to quiz!',type:'error',hideDuration:3000})
+      return;
     }
      axios.post(QUIZ,quiz,{headers:userInfo.authToken()}).then(res=>{
       setNotification({open:true,msg:'Quiz added successfully!',type:'success',hideDuration:3000})
-      // setQuiz(null);
+      setTimeout(() => {
+        navigation(-1)
+      }, 1000)
     }).catch(error=>{
       console.log(error)
       setNotification({open:true,msg:'Something went wrong',type:'error',hideDuration:3000})
@@ -88,6 +118,7 @@ function AddQuiz(props) {
             variant="outlined"
             margin="normal"
             required
+            value={quiz.title} onChange={handleChange}
             fullWidth
             id="title"
             label="Title"
@@ -99,6 +130,8 @@ function AddQuiz(props) {
             variant="outlined"
             margin="normal"
             required
+            type="number"
+            value={quiz.description} onChange={handleChange}
             fullWidth
             id="description"
             label="Description"
@@ -112,18 +145,21 @@ function AddQuiz(props) {
               variant="outlined"
               margin="normal"
               required
+              type="number"
+              value={quiz.noOfQuestion} onChange={handleChange}
               id="question"
               label="No of Question"
-              name="question"
+              name="noOfQuestion"
             />
             <TextField
               variant="outlined"
-              type='number'
               margin="normal"
+              type="number"
               required
+              value={quiz.maxMarks} onChange={handleChange}
               id="maxMarks"
               label="Marks Per Question"
-              name="marks"
+              name="maxMarks"
             />
           </div>
           <FormControl fullWidth>
@@ -131,10 +167,10 @@ function AddQuiz(props) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={age}
+              value={quiz.category.cid}
               name="category"
               label="Category"
-              onChange={handleChange}
+              onChange={handleChanges}
             >
               {
                 category.map(cat => {

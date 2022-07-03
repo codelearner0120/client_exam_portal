@@ -22,6 +22,7 @@ export const useAgent=()=>{
         localStorage.removeItem("jwt");
     }
     const logout=()=>{
+        console.log(localStorage.getItem("jwt"))
         clearStorage()
     }
     const getJwtToken=()=>{
@@ -31,13 +32,29 @@ export const useAgent=()=>{
         let userStr=localStorage.getItem("user");
         return JSON.parse(userStr);
     }
+    const isAuthorized=(access=[])=>{
+        if(access.length===0) return false;
+        if(isLoggedIn()){
+          if(access==='undefined'||access==null||typeof(access)==='undefined') return false;
+          let user=getUser();
+          console.log(user)
+          if(!user) return false;
+          let roles=user.authorities[0].authority
+          return access.some(role=>{
+              return roles.includes(role);
+          })
+        }
+        return false;
+    }
     const isLoggedIn=()=>{
-        // const unParsedAgent=localStorage.getItem("agent");
+
         const jwt=localStorage.getItem("jwt");
         // if(!unParsedAgent||!jwt){
         //     logout();
         //     return false;
         // }
+        if(!jwt) return false;
+        if(typeof(jwt)=='undefined') return false;
         if(jwt==''||jwt===undefined||jwt===null) return false;
         // if(jwt){
         //     if(isJwtValid(jwt).then(result=>{
@@ -66,6 +83,6 @@ export const useAgent=()=>{
         // initiateBackgroundTokenRefresh(jwt);
     }
    return {
-        isLoggedIn,onReload,logout,saveInStorage,getJwtToken,getUser,authToken
+        isLoggedIn,onReload,logout,saveInStorage,getJwtToken,getUser,authToken,isAuthorized
     }
 }
