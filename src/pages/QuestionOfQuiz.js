@@ -15,6 +15,8 @@ import Switch from '@mui/material/Switch';
 import { DeleteButton, RegularButton } from '../common/Buttons';
 import Popup from '../common/Popup';
 import AddorUpdateQuestion from './AddorUpdateQuestion';
+import AuthorisedComponent from '../common/AuthorisedComponent';
+import * as portal_roles from '../common/CommonConstants'
 
 function QuestionOfQuiz() {
   const userInfo = useAgent();
@@ -22,7 +24,7 @@ function QuestionOfQuiz() {
   let quizId = location.pathname.split('/').pop();
   const path = useNavigate()
   const [open, setOpen] = useState(false)
-  const [selectedOption,setSelectedOption]=useState(null)
+  const [selectedOption, setSelectedOption] = useState(null)
   const requestHeader = userInfo.authToken();
   const [questionList, setQuestionList] = useState([])
   const [notification, setNotification] = useState({ open: false, msg: "Sucsess", type: "success", hideDuration: 3000 })
@@ -53,29 +55,44 @@ function QuestionOfQuiz() {
   const deleteQuestion = () => {
     let url = QUESTION + selectedOption
     axios.delete(url, { headers: requestHeader }).then(response => {
-      setNotification({open:true,msg:"question deleted succesfully",type:'success',hideDuration:3000})
+      setNotification({ open: true, msg: "question deleted succesfully", type: 'success', hideDuration: 3000 })
       getAllQuestionOfQuiz()
       setOpen(false)
     }).catch(error => {
-      setNotification({open:true,msg:"Something went wrong!",type:'error',hideDuration:3000})
+      setNotification({ open: true, msg: "Something went wrong!", type: 'error', hideDuration: 3000 })
     })
   }
   const QuestionCard = ({ question }) => {
     return (
       <Container component={Paper} maxWidth="md" elevation={1}>
-        <div style={{ display: 'flex', marginLeft: '5px', marginBottom: '5px', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           <div style={{ fontWeight: 'bold' }}>{question.content}</div>
           <div>1. {question.option1}</div>
           <div>2. {question.option2}</div>
           <div>3. {question.option3}</div>
           <div>4. {question.option4}</div>
         </div>
-        <RegularButton sx={{ marginRight: '10%', marginBottom: '10px' }}
-          onClick={() => { updateQuestion(question.quesId) }}
-        >Update</RegularButton>
-        <DeleteButton sx={{ marginLeft: '10%', marginBottom: '10px' }}
-          onClick={() => {setOpen(true); setSelectedOption(question.quesId) }}
-        >Delete</DeleteButton>
+
+        <Grid container sx={{ justifyContent: 'center' }}>
+          <AuthorisedComponent roles={[portal_roles.ADMIN_ROLE]}>
+            <Grid item xs={2} sm={4} md={4}>
+              <RegularButton sx={{ marginRight: '10%', marginBottom: '10px' }}
+                onClick={() => { updateQuestion(question.quesId) }}
+              >
+                Update
+              </RegularButton>
+            </Grid>
+          </AuthorisedComponent>
+          <AuthorisedComponent roles={[portal_roles.ADMIN_ROLE]}>
+            <Grid item xs={2} sm={4} md={4}>
+              <DeleteButton sx={{ marginLeft: '10%', marginBottom: '10px' }}
+                onClick={() => { setOpen(true); setSelectedOption(question.quesId) }}
+              >
+                Delete
+              </DeleteButton>
+            </Grid>
+          </AuthorisedComponent>
+        </Grid>
       </Container>
     )
   }

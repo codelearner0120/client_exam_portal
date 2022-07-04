@@ -9,6 +9,8 @@ import { useAgent } from '../Forms/useAgent'
 import { CATEGORY } from '../common/ApiEndPoints'
 import Notification from '../common/Notification'
 import Popup from '../common/Popup'
+import AuthorisedComponent from '../common/AuthorisedComponent'
+import * as portal_roles from '../common/CommonConstants'
 
 function ViewCategories() {
     const navigation = useNavigate();
@@ -23,7 +25,7 @@ function ViewCategories() {
     }
     let url = CATEGORY
     let token = userInfo.getJwtToken();
-    const getAllCategories=()=>{
+    const getAllCategories = () => {
         axios.get(url, { headers: userInfo.authToken() }).then(res => {
             setCategory(res.data)
             console.log(res.data)
@@ -39,13 +41,13 @@ function ViewCategories() {
         console.log('sending for delection!!')
         console.log(selectedOption)
         setOpen(false)
-        let url=CATEGORY+selectedOption.cid;
+        let url = CATEGORY + selectedOption.cid;
         console.log(url)
-        axios.delete(url,{headers:requestHeader}).then(res=>{
-            setNotification({open:true,type:'success',msg:'Category deleted successfully!',hideDuration:3000})
+        axios.delete(url, { headers: requestHeader }).then(res => {
+            setNotification({ open: true, type: 'success', msg: 'Category deleted successfully!', hideDuration: 3000 })
             getAllCategories();
-        }).catch(error=>{
-            setNotification({open:true,type:'error',msg:'something went wrong!',hideDuration:3000})
+        }).catch(error => {
+            setNotification({ open: true, type: 'error', msg: 'something went wrong!', hideDuration: 3000 })
         })
     }
     const handleCategoryDelete = (category) => {
@@ -56,19 +58,31 @@ function ViewCategories() {
 
     const CategoryCard = ({ category }) => {
         return (
-            <Container component={Paper} maxWidth="md" elevation={1} sx={{ marginTop: '5px' }} >
+            <Container component={Paper} maxWidth="md" elevation={1} sx={{ marginTop: '5px',marginBottom:'5px' }} >
                 <div style={{ display: 'flex', marginLeft: '5px', marginBottom: '5px', flexDirection: 'column', alignItems: 'flex-start' }}>
                     <div style={{ color: 'Highlight' }}>{category.title}</div>
                     <div style={{ color: 'GrayText' }}>{category.description}</div>
                 </div>
-                <RegularButton sx={{ marginRight: '10%', marginBottom: '10px' }}
-                    onClick={() => {navigation("/updatecategory/"+category.cid)}}
-                >Update</RegularButton>
-                <DeleteButton sx={{ marginLeft: '10%', marginBottom: '10px' }}
-                    onClick={() => {
-                        handleCategoryDelete(category)
-                    }}
-                >Delete</DeleteButton>
+                <Grid container sx={{ justifyContent: 'center' }}>
+                    <AuthorisedComponent roles={[portal_roles.ADMIN_ROLE]}>
+                        <Grid item xs={12} sm={6} md={4}>
+                            <RegularButton sx={{ marginRight: '10%', marginBottom: '10px' }}
+                                onClick={() => { navigation("/updatecategory/" + category.cid) }}
+                            >
+                                Update
+                            </RegularButton>
+                        </Grid>
+                    </AuthorisedComponent>
+                    <AuthorisedComponent roles={[portal_roles.ADMIN_ROLE]}>
+                        <Grid item xs={12} sm={6} md={4}>
+                            <DeleteButton sx={{ marginLeft: '10%', marginBottom: '10px' }}
+                                onClick={() => {
+                                    handleCategoryDelete(category)
+                                }}
+                            >Delete</DeleteButton>
+                        </Grid>
+                    </AuthorisedComponent>
+                </Grid>
             </Container>
         )
     }
@@ -88,11 +102,17 @@ function ViewCategories() {
                         return <CategoryCard category={category}></CategoryCard>
                     })
                 }
-                <RegularButton
-                    style={{ marginTop: '20px', marginBottom: '5px' }}
-                    onClick={addcategory}
-                >
-                    Add category</RegularButton>
+                <Grid container sx={{ justifyContent: 'center' }}>
+                    <AuthorisedComponent roles={[portal_roles.ADMIN_ROLE]}>
+                        <Grid item xs={12} sm={6} md={4}>
+                            <RegularButton
+                                style={{ marginTop: '5px', marginBottom: '10px' }}
+                                onClick={addcategory}
+                            >
+                                Add category</RegularButton>
+                        </Grid>
+                    </AuthorisedComponent>
+                </Grid>
             </Container>
         </>
     )

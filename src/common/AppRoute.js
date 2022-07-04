@@ -14,6 +14,7 @@ import UserDeshboard from '../DashBoards/UserDeshboard';
 import QuestionOfQuiz from '../pages/QuestionOfQuiz';
 import AddorUpdateQuestion from '../pages/AddorUpdateQuestion';
 import {useAgent} from '../Forms/useAgent'
+import StartQuiz from '../pages/StartQuiz';
 
 function AppRoute() {
   // let user=useAgent().getUser();
@@ -34,6 +35,7 @@ function AppRoute() {
         <Route exact path="/newuser" element={<NewUserForm />}></Route>
         <Route exact path="/addquiz" element={<AddQuiz />}></Route>
         <Route exact path="/quiz" element={<Quizes update={false} />}></Route>
+        <Route exact path="/startquiz/:quizId" element={< StartQuiz/>}></Route>
         <Route exact path="/quiz/update/:quizId" element={<AddQuiz update={true} />}></Route>
         <Route exact path="/categories" element={<ViewCategories />}></Route>
         <Route exact path="/addcategory" element={<AddCategory />}></Route>
